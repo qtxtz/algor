@@ -3141,7 +3141,7 @@ class Solution:
 
 ### 买卖股票的最佳时机2
 
-[买卖股票的最佳时机 II](https://www.lintcode.com/problem/best-time-to-buy-and-sell-stock-ii/description)<br>
+[买卖股票的最佳时机II](https://www.lintcode.com/problem/best-time-to-buy-and-sell-stock-ii/description)<br>
 ```python
 class Solution:
     """
@@ -3158,6 +3158,24 @@ class Solution:
             if diff > 0:
                 profit += diff
         return profit
+```
+
+### 买卖股票的最佳时机3
+
+[买卖股票的最佳时机III](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/solutions/552695/mai-mai-gu-piao-de-zui-jia-shi-ji-iii-by-wrnt/)<br>
+```python
+#方法：动态规划&状态转移
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        n = len(prices)
+        buy1 = buy2 = -prices[0]
+        sell1 = sell2 = 0
+        for i in range(1, n):
+            buy1 = max(buy1, -prices[i])
+            sell1 = max(sell1, buy1 + prices[i])
+            buy2 = max(buy2, sell1 - prices[i])
+            sell2 = max(sell2, buy2 + prices[i])
+        return sell2
 ```
 
 ### 最长连续序列
