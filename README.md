@@ -227,6 +227,9 @@ DFS的主要数据结构是Stack<br>
  - [交叉字符串](#交叉字符串)
  - [打劫房屋](#打劫房屋)
 
+背包问题（特殊的动态规划）<br>
+ - [背包问题](#背包问题)
+
 **其他补充**
 
  - [两个字符串减法(相减)](#两个字符串减法)
@@ -4439,6 +4442,120 @@ class Solution:
         for i in range(2, n):
             f[i] = max(f[i-1], f[i-2]+A[i])
         return f[n-1]
+```
+
+---
+
+### 背包问题
+
+#### 0-1背包问题
+
+用二维数组解决问题<br>
+```GO
+package main
+
+import "fmt"
+
+//https://programmercarl.com/%E8%83%8C%E5%8C%85%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%8001%E8%83%8C%E5%8C%85-1.html#%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80%E7%89%88%E6%9C%AC
+//row是物品i，col是背包的空间从0到bagWeight
+func bag(weights, values []int, bagWeight int) int {
+	dp := make([][]int, len(weights))
+	for i := range dp {
+		dp[i] = make([]int, bagWeight+1)
+	}
+	//物品0放入背包初始化
+	for j := bagWeight; j >= weights[0]; j-- {
+		dp[0][j] = values[0]
+	}
+	//递推
+	for i := 1; i < len(weights); i++ {
+		for j := weights[i]; j <= bagWeight; j++ {
+			dp[i][j] = max(dp[i-1][j], dp[i-1][j-weights[i]]+values[i])
+		}
+	}
+	return dp[len(weights)-1][bagWeight]
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+```
+
+用一维数组解决问题<br>
+```GO
+func bag(weights, values []int, bagWeight int) int {
+	dp := make([]int, bagWeight+1)
+	for i := 0; i < len(weights); i++ {
+		for j := bagWeight; j >= weights[i]; j-- { //必须要倒序遍历
+			dp[j] = max(dp[j], dp[j-weights[i]]+values[i])
+		}
+	}
+	return dp[bagWeight]
+}
+```
+
+其他可以转换成0-1背包问题<br>
+494. [目标和](https://leetcode-cn.com/problems/target-sum/description/)<br> //0-1背包下的组合问题（不考虑顺序）
+474. [一和零](https://leetcode-cn.com/problems/ones-and-zeroes/description/)<br> //0-1背包下的最大最小问题
+416. [分割等和子集](https://leetcode-cn.com/problems/partition-equal-subset-sum/description/)<br> //0-1背包下的True、False问题
+
+#### 完全背包问题（不考虑顺序）
+
+322. [零钱兑换](https://leetcode-cn.com/problems/coin-change/description/)<br> //最大最小问题
+518. [零钱兑换II](https://leetcode-cn.com/problems/coin-change-2/description/)<br> //组合问题（不考虑顺序）
+
+#### 完全背包问题（考虑顺序）
+
+377. [组合总和Ⅳ](https://leetcode-cn.com/problems/combination-sum-iv/description/)<br> //组合问题（考虑顺序）
+139. [单词拆分](https://leetcode-cn.com/problems/word-break/)<br> //True、False问题
+
+组合问题公式<br>
+```go
+dp[i] += dp[i-num]
+```
+True、False问题公式<br>
+```go
+dp[i] = dp[i] || dp[i-num]
+```
+最大最小问题公式<br>
+```go
+dp[i] = min(dp[i], dp[i-num]+1)或者dp[i] = max(dp[i], dp[i-num]+1)
+```
+或者
+dp[i] = max(dp[i], dp[i-num]+num) //参考经典https://www.lintcode.com/problem/92/和https://leetcode.cn/problems/last-stone-weight-ii/
+以上三组公式是解决对应问题的核心公式。
+
+**当然拿到问题后，需要做到以下几个步骤：**
+
+1.分析是否为背包问题。<br>
+2.是以上三种背包问题中的哪一种。<br>
+3.是0-1背包问题还是完全背包问题。也就是题目给的nums数组中的元素是否可以重复使用。<br>
+4.如果是组合问题，是否需要考虑元素之间的顺序。需要考虑顺序有顺序的解法，不需要考虑顺序又有对应的解法。<br>
+
+**接下来讲一下背包问题的判定**
+
+背包问题具备的特征：给定一个target，target可以是数字也可以是字符串，再给定一个数组nums，nums中装的可能是数字，也可能是字符串，问：能否使用nums中的元素做各种排列组合得到target。
+
+**背包问题技巧：**
+
+1.如果是0-1背包，即数组中的元素不可重复使用，nums放在外循环，target在内循环，且内循环倒序；<br>
+```go
+for num in nums:
+    for i in range(target, num-1, -1):
+```
+2.如果是完全背包问题(不考虑顺序)，即数组中的元素可重复使用，nums放在外循环，target在内循环。且内循环正序。<br>
+```go
+for num in nums:
+    for i in range(num, target+1): // <=target
+```
+3.如果完全背包问题(考虑顺序)，需将target放在外循环，将nums放在内循环。
+```go
+for i in range(1, target+1): // <=target
+    for num in nums:
 ```
 
 ---
