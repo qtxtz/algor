@@ -158,6 +158,7 @@ Array<br>
  
 **chapter_7 两根指针(Two Pointers)**
 
+ - [双指针常用模板](#双指针常用模板)
  - [移动零](#移动零)
  - [去除重复元素](#去除重复元素)
  - [有效回文串](#有效回文串)
@@ -172,6 +173,7 @@ Array<br>
  - [最接近的三数之和](#最接近的三数之和)
  - [四数之和](#四数之和)
  - [两数和 - 差等于目标值](#两数和_差等于目标值)
+ - [无重复字符的最长子串](#无重复字符的最长子串)
 
 **chapter_8 数据结构(Data Structure)**
 
@@ -3211,6 +3213,26 @@ class Solution:
 
 ---
 
+### 双指针常用模板
+
+以下模板能解决大多数的双指针问题<br>
+```python
+def findSubstring(s):
+    N = len(s) # 数组/字符串长度
+    left, right = 0, 0 # 双指针，表示当前遍历的区间[left, right]，闭区间
+    counter = collections.Counter() # 用于统计 子数组/子区间 是否有效
+    res = 0 # 保存最大的满足题目要求的 子数组/子串 长度
+    while right < N: # 当右边的指针没有搜索到 数组/字符串 的结尾
+        counter[s[right]] += 1 # 增加当前右边指针的数字/字符的计数
+        while 区间[left, right]不符合题意：# 此时需要一直移动左指针，直至找到一个符合题意的区间
+            counter[s[left]] -= 1 # 移动左指针前需要从counter中减少left位置字符的计数
+            left += 1 # 真正的移动左指针，注意不能跟上面一行代码写反
+        # 到 while 结束时，我们找到了一个符合题意要求的 子数组/子串
+        res = max(res, right - left + 1) # 需要更新结果
+        right += 1 # 移动右指针，去探索新的区间
+    return res
+```
+
 ### 移动零
 
 [移动零](https://www.lintcode.com/problem/move-zeroes/description)<br>
@@ -3620,6 +3642,29 @@ class Solution:
 
         return indexs
 ```
+
+### 无重复字符的最长子串
+
+[无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/)<br>
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if len(s) <= 1:
+            return len(s)
+        left, right = 0, 1
+        unique = set(s[0])
+        res = 0
+        while left < right and right < len(s):
+            while s[right] in unique:
+                unique.remove(s[left])
+                left+=1
+            unique.add(s[right])
+            if len(unique) > res:
+                res = len(unique)
+            right+=1
+        return res
+```
+
 
 ---
 
