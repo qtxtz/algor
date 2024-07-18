@@ -252,6 +252,10 @@ DFS的主要数据结构是Stack<br>
 
 [算法动画演示(强烈推荐)](https://github.com/MisterBooo/LeetCodeAnimation)<br> 
 
+**其他刷题资料**
+
+ - [负雪明烛关注](#负雪明烛关注)
+
 ---
 
 ### 二分查找
@@ -4999,3 +5003,13 @@ class Solution:
 ### 哈夫曼编码
 
 [详细图解哈夫曼Huffman编码树](https://blog.csdn.net/FX677588/article/details/70767446)<br>
+
+
+---
+
+### 负雪明烛关注
+
+[LeetCode应该怎么刷？](https://mp.weixin.qq.com/s/viDYrSlF5INEhVWiJhM2EQ)<br>
+[LeetCode最经典的100道题](https://mp.weixin.qq.com/s/e51CEkEP6Wz850JYbgz8dw)<br>
+[LeetCode代码模板，刷题必会](https://blog.csdn.net/fuxuemingzhu/article/details/101900729)<br>
+[1000道LeetCode题解](https://fuxuemingzhu.cn/)<br>
