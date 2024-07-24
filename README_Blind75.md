@@ -418,7 +418,7 @@ class Solution:
 螺旋矩阵I&II
 旋转图像
 单词搜索
-【字符串】（20240718-202407xx，）
+【字符串】（20240718-20240719，）
 无重复字符的最长子串
 替换后的最长重复字符
 最小覆盖子串
@@ -439,10 +439,10 @@ class Codec:
         :rtype: str
         """
         if len(strs) == 0: 
-            return unichr(258)
+            return chr(258)
         
         # encode here is a workaround to fix BE CodecDriver error
-        return unichr(257).join(x.encode('utf-8') for x in strs)
+        return chr(257).join(strs)
         
 
     def decode(self, s):
@@ -450,9 +450,9 @@ class Codec:
         :type s: str
         :rtype: List[str]
         """
-        if s == unichr(258): 
+        if s == chr(258): 
             return []
-        return s.split(unichr(257))
+        return s.split(chr(257))
 # 方法二：分块编码
 #这种方法基于 HTTP v1.1 使用的编码，它不依赖于输入字符集，因此比方法一更具有通用性和有效性。
 #数据流被分成块，每个块前面都有其字节大小。
@@ -473,7 +473,7 @@ class Codec:
         :rtype: str
         """
         # encode here is a workaround to fix BE CodecDriver error
-        return ''.join(self.len_to_str(x) + x.encode('utf-8') for x in strs)
+        return ''.join(self.len_to_str(x) + x for x in strs)
         
     def str_to_int(self, bytes_str):
         """
@@ -499,7 +499,7 @@ class Codec:
         return output
 
 ```
-【树】
+【树】（20240719-20240723，）
 二叉树的最大深度
 相同的树
 翻转二叉树
@@ -511,11 +511,9 @@ class Codec:
 验证二叉搜索树
 二叉搜索树中第K小的元素
 二叉树的最近公共祖先
-二叉搜索树的最近公共祖先
 实现Trie(前缀树)
 添加与搜索单词 - 数据结构设计
-【堆】
-合并K个升序链表
+【堆】（20240723-20240724，）
 前K个高频元素
 前K个高频单词
 数据流的中位数
